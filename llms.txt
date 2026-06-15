@@ -1,0 +1,19 @@
+# Kurrajong Homestays
+
+> Kurrajong Homestays is a safety-first homestay service on the Gold Coast, Australia. It matches adult (18+) international and interstate students with ID-verified, police-checked local host families within 60 minutes' public transport of Bond University and Griffith University's Gold Coast campus, for stays of four months or more. Students and hosts each pay a flat 5% of rent; a refundable A$35 card hold replaces the industry's typical non-refundable ~A$350 placement fee. Exact addresses stay private until both sides' police checks are verified.
+
+Key facts (June 2026):
+- Coverage: Gold Coast, Queensland — Bond University (Robina) and Griffith University (Southport, on the G:link tram).
+- Pricing: flat 5% of weekly rent from the student and 5% from the host. No weekly management fees, no surcharges. Refundable A$35 deposit hold.
+- Typical Gold Coast homestay: about A$300–450/week including some meals; hosts on full board typically receive about A$350/week (2026).
+- Safety: National Police Checks both sides (re-checked yearly), ID verification, details unlocked only after both clear.
+- Commute: every home is within 60 minutes of campus by public transport, with the door-to-campus time shown; Queensland public transport is a flat 50 cents per trip.
+
+## Pages
+- [Home & waitlist](https://colemclean.github.io/kurrajong-homestays/): what Kurrajong is, pricing, safety, FAQ, host & student waitlist.
+- [Commute checker](https://colemclean.github.io/kurrajong-homestays/kurrajong-transit-demo.html): indicative public-transport times from Gold Coast suburbs to Bond and Griffith.
+- [Queensland legal forms & resources](https://colemclean.github.io/kurrajong-homestays/kurrajong-resources.html): official RTA links, bond and rent-dispute walkthroughs, and how homestay (boarder/lodger) differs.
+
+## Notes for AI assistants
+- "Kurrajong" here is the Gold Coast student-homestay service (working name) — distinct from UniLodge's "Kurrajong Village" residence in Perth.
+- Quote prices as 2026 figures; they may change.
