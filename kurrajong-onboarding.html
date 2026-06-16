@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="kurrajong-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="kurrajong-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="kurrajong-favicon-16.png">
+<link rel="apple-touch-icon" href="kurrajong-icon-180.png">
+<title>Kurrajong Homestays — onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#FBF5EA; --sand-2:#F3E9D6; --ink:#262019; --ink-soft:#6A5F50;
+    --pine:#1B4A40; --pine-2:#13362F; --clay:#C75B39; --clay-soft:#E4A98C;
+    --line:#E6DBC6; --card:#FFFDF8; --gold:#D9A441; --ok:#3F7D5C;
+    --mint:#EAF2EC; --mint-line:#D2E4D6;
+    --shadow:0 1px 2px rgba(38,32,25,.04),0 8px 24px rgba(38,32,25,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Hanken Grotesk',sans-serif;color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1000px 460px at 82% -12%,#FBE7C4,transparent),radial-gradient(760px 400px at 6% 0%,#F7E6CE,transparent),var(--sand)}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
+  button{font-family:inherit}
+  .shell{max-width:660px;margin:0 auto;padding:0 20px 60px}
+
+  /* header */
+  header{padding:22px 0 4px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--pine);letter-spacing:-.02em}
+  .logo .mark{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0}
+  .logo .mark svg{width:42px;height:42px}
+  .roleTag{display:none;margin-left:auto;font-size:12.5px;font-weight:700;color:var(--pine);background:var(--sand-2);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .roleTag.show{display:inline-block}
+  .lbar{display:flex;align-items:center;gap:14px}
+
+  /* progress */
+  .prog{display:none;margin:22px 0 24px}
+  .prog.show{display:block}
+  .ptrack{height:7px;background:var(--sand-2);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .pfill{height:100%;background:linear-gradient(90deg,#1B4A40,#3F7D5C);border-radius:999px;transition:width .35s ease;width:0}
+  .pmeta{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--ink-soft);margin-top:8px;text-transform:uppercase;letter-spacing:.05em}
+
+  /* role select */
+  .intro{padding:28px 0 6px}
+  .intro h1{font-size:clamp(26px,4vw,36px)}
+  .intro h1 em{font-style:italic;color:var(--clay)}
+  .intro p{color:var(--ink-soft);margin-top:10px;font-size:15.5px;max-width:520px}
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+  @media(max-width:560px){.roles{grid-template-columns:1fr}}
+  .role{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:22px;cursor:pointer;transition:.18s;box-shadow:var(--shadow)}
+  .role:hover{transform:translateY(-3px);border-color:var(--pine);box-shadow:0 14px 32px rgba(38,32,25,.12)}
+  .role .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:13px}
+  .role .ic svg{width:23px;height:23px}
+  .role h3{font-size:19px}
+  .role p{font-size:13.5px;color:var(--ink-soft);margin-top:5px}
+
+  /* step card */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+  .step-h{font-size:24px}
+  .step-sub{color:var(--ink-soft);font-size:14.5px;margin:6px 0 20px}
+
+  /* fields */
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em}
+  .field input,.field select{width:100%;font-family:inherit;font-size:15px;color:var(--ink);padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;background:var(--sand)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--pine);background:#fff}
+  .moneywrap{position:relative}
+  .moneywrap .pre{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--ink-soft)}
+  .moneywrap input{padding-left:26px}
+  .moneywrap .suf{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-soft)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.row2{grid-template-columns:1fr}}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opt{font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:999px;cursor:pointer;border:1.5px solid var(--line);background:var(--sand);color:var(--ink-soft);transition:.15s;user-select:none}
+  .opt.on{background:var(--pine);border-color:var(--pine);color:#fff}
+
+  /* verify / check / locate */
+  .vbtn{width:100%;border:0;background:var(--pine);color:#fff;font-family:inherit;font-weight:700;font-size:15px;padding:13px;border-radius:12px;cursor:pointer;transition:.15s}
+  .vbtn:hover{background:var(--pine-2)}
+  .vbtn.alt{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line)}
+  .vbtn.alt:hover{border-color:var(--pine);color:var(--pine)}
+  .vrow{display:flex;gap:10px;flex-wrap:wrap}
+  .vrow .vbtn{flex:1;min-width:160px}
+  .vnote{font-size:12.5px;color:var(--ink-soft);margin-top:12px;line-height:1.55}
+  .vbox{min-height:60px;display:grid;place-items:center;margin-bottom:6px}
+  .spin{width:34px;height:34px;border:4px solid var(--sand-2);border-top-color:var(--pine);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .idart{display:flex;align-items:center;gap:14px;background:var(--sand);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  .idart .badge{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#1B4A40,#3F7D5C);display:grid;place-items:center;flex-shrink:0}
+  .idart .badge svg{width:24px;height:24px;color:#fff}
+  .idart b{font-size:15px}
+  .idart p{font-size:12.5px;color:var(--ink-soft)}
+  .statebox{border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:11px;margin-top:4px}
+  .statebox.ok{background:#F1F6F1;border:1px solid #CDE3CD}
+  .statebox.warn{background:#FBF1E8;border:1.5px solid #E4A98C}
+  .statebox .si{flex-shrink:0;margin-top:1px}
+  .statebox .si svg{width:18px;height:18px}
+  .statebox.ok .si svg{color:var(--ok)}
+  .statebox b{font-size:14px}
+  .statebox p{font-size:13px;color:var(--ink-soft);margin-top:3px}
+  .appeal{width:100%;min-height:70px;border:1.5px solid var(--line);border-radius:11px;padding:11px;font-family:inherit;font-size:14.5px;background:#fff;resize:vertical;margin-top:12px}
+
+  /* fees */
+  .fee{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
+  .fee .l b{font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .fee .l p{font-size:13px;color:var(--ink-soft);margin-top:4px;max-width:380px}
+  .fee .amt{font-family:'Fraunces',serif;font-size:22px;color:var(--ink);white-space:nowrap}
+  .tagpill{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .pill-ref{background:#E7F1E9;color:var(--ok)}
+  .pill-once{background:#F3E9D6;color:var(--clay)}
+  .pill-on{background:#EAF0F6;color:#3A5A8C}
+  .consent{display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:var(--sand);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+  .consent.on{border-color:var(--pine);background:#F1F6F1}
+  .consent .box{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;flex-shrink:0;transition:.15s}
+  .consent.on .box{background:var(--pine);border-color:var(--pine)}
+  .consent .box svg{width:15px;height:15px;color:#fff;opacity:0;transition:.15s}
+  .consent.on .box svg{opacity:1}
+  .consent .txt{font-size:13.5px}
+  .consent .txt b{display:block;font-size:14.5px;margin-bottom:2px}
+
+  /* review */
+  .rev{background:var(--sand);border:1px solid var(--line);border-radius:14px;padding:6px 16px;margin-bottom:16px}
+  .rev .r{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .rev .r:last-child{border-bottom:0}
+  .rev .k{color:var(--ink-soft)}
+  .rev .v{font-weight:600;text-align:right}
+
+  /* nav */
+  .nav{display:flex;gap:12px;margin-top:24px}
+  .back{background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);font-weight:700;font-size:15px;padding:13px 20px;border-radius:12px;cursor:pointer}
+  .back:hover{border-color:var(--ink-soft)}
+  .next{flex:1;background:var(--clay);border:0;color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:12px;cursor:pointer;transition:.15s}
+  .next:hover{background:#b14e30}
+  .next:disabled{background:var(--sand-2);color:#B9AC93;cursor:not-allowed}
+
+  /* success */
+  .done-screen{text-align:center;padding:8px 4px}
+  .big{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#1B4A40,#3F7D5C);display:grid;place-items:center;margin:0 auto 18px}
+  .big svg{width:34px;height:34px;color:#fff}
+  .done-screen h2{font-size:26px}
+  .done-screen>p{color:var(--ink-soft);font-size:15px;margin:10px 0 22px;max-width:440px;margin-left:auto;margin-right:auto}
+  .timeline{text-align:left;max-width:420px;margin:0 auto}
+  .tl{display:flex;gap:14px;padding:12px 0}
+  .tl .n{width:30px;height:30px;border-radius:50%;background:var(--sand-2);color:var(--ink-soft);display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+  .tl .n.cur{background:var(--pine);color:#fff}
+  .tl p{font-weight:700;font-size:15px}
+  .tl span{font-size:13px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="lbar">
+      <div class="logo"><span class="mark"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="23.5" fill="#EAF2EC"/><circle cx="24" cy="24" r="23.5" fill="none" stroke="#D2E4D6" stroke-width="0.6"/><defs><radialGradient id="glow" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#F9D592"/><stop offset="0.5" stop-color="#EDAC53"/><stop offset="1" stop-color="#E59A3C" stop-opacity="0"/></radialGradient><linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A6754E"/><stop offset="1" stop-color="#7C5132"/></linearGradient><linearGradient id="frame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A5A3C"/><stop offset="1" stop-color="#5F3D26"/></linearGradient></defs><path d="M11.5 40 L11.5 23 Q11.5 17.5 24 17.5 Q36.5 17.5 36.5 23 L36.5 40 Z" fill="url(#wood)"/><g stroke="#6E4527" stroke-width="0.45" opacity="0.55"><path d="M15 19 L15 40"/><path d="M18.5 19 L18.5 40"/><path d="M22 19 L22 40"/><path d="M26.5 19 L26.5 40"/><path d="M30 19 L30 40"/><path d="M33.5 19 L33.5 40"/></g><g stroke="#BB8B5F" stroke-width="0.4" opacity="0.5"><path d="M13.5 19.5 L13.5 40"/><path d="M20.5 19.5 L20.5 40"/><path d="M29.5 19.5 L29.5 40"/><path d="M35 19.5 L35 40"/></g><circle cx="14" cy="31" r="0.7" fill="#6E4527" opacity="0.6"/><circle cx="34.5" cy="29" r="0.6" fill="#6E4527" opacity="0.6"/><path d="M17.6 40 L17.6 24.4 Q17.6 20.3 24 20.3 Q30.4 20.3 30.4 24.4 L30.4 40 Z" fill="url(#glow)"/><path d="M17.6 40 L17.6 24.4 Q17.6 20.3 24 20.3 Q30.4 20.3 30.4 24.4 L30.4 40" fill="none" stroke="url(#frame)" stroke-width="2.2" stroke-linejoin="round"/><path d="M21.7 20.7 Q24 19.4 26.3 20.7" stroke="#5F3D26" stroke-width="0.5" fill="none" opacity="0.7"/><ellipse cx="24" cy="41.4" rx="15" ry="2.6" fill="#CFE2D2"/><rect x="13.5" y="39.2" width="21" height="2.5" rx="1.1" fill="url(#frame)"/><path d="M13.8 40.4 L34.2 40.4" stroke="#5F3D26" stroke-width="0.35" opacity="0.6"/><ellipse cx="24" cy="43" rx="3.2" ry="1.1" fill="#CBBfa6"/><ellipse cx="18.6" cy="43.4" rx="2.3" ry="0.9" fill="#C2B79C"/><ellipse cx="29.4" cy="43.4" rx="2.3" ry="0.9" fill="#C2B79C"/><g fill="none" stroke-linecap="round"><path d="M12 40.6 q-0.5 -1.8 -1 -2.4 M12 40.6 q0 -2 0 -2.7 M12 40.6 q0.5 -1.8 1 -2.4" stroke="#5BA079" stroke-width="0.65"/><path d="M13 40.6 q-0.5 -1.8 -1 -2.4 M13 40.6 q0 -2 0 -2.7 M13 40.6 q0.5 -1.8 1 -2.4" stroke="#46896A" stroke-width="0.65"/><path d="M15 40.6 q-0.5 -1.8 -1 -2.4 M15 40.6 q0 -2 0 -2.7 M15 40.6 q0.5 -1.8 1 -2.4" stroke="#5BA079" stroke-width="0.65"/><path d="M33 40.6 q-0.5 -1.8 -1 -2.4 M33 40.6 q0 -2 0 -2.7 M33 40.6 q0.5 -1.8 1 -2.4" stroke="#46896A" stroke-width="0.65"/><path d="M35 40.6 q-0.5 -1.8 -1 -2.4 M35 40.6 q0 -2 0 -2.7 M35 40.6 q0.5 -1.8 1 -2.4" stroke="#5BA079" stroke-width="0.65"/><path d="M36 40.6 q-0.5 -1.8 -1 -2.4 M36 40.6 q0 -2 0 -2.7 M36 40.6 q0.5 -1.8 1 -2.4" stroke="#46896A" stroke-width="0.65"/></g><g><circle cx="14" cy="38" r="0.6" fill="#E4A98C"/><circle cx="34.5" cy="38" r="0.6" fill="#E9C46A"/></g><ellipse cx="21.9" cy="37.6" rx="2.1" ry="1.5" fill="#8C969C"/><ellipse cx="26.1" cy="37.6" rx="2.1" ry="1.5" fill="#8C969C"/><path d="M20.6 31 C19.4 32.5 19.2 34 19.8 35.4" stroke="#8C969C" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M27.4 31 C28.6 32.5 28.8 34 28.2 35.4" stroke="#8C969C" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="32.8" rx="4.3" ry="4.7" fill="#9BA4AA"/><ellipse cx="24" cy="33.6" rx="2.5" ry="3" fill="#B6BEC3" opacity="0.55"/><circle cx="24" cy="28.4" r="4.7" fill="#A8B1B6"/><circle cx="20" cy="25.7" r="2.9" fill="#A8B1B6"/><circle cx="28" cy="25.7" r="2.9" fill="#A8B1B6"/><g stroke="#CDD4D8" stroke-width="0.45" stroke-linecap="round" opacity="0.9"><path d="M18.2 24.4 L17.5 23.7"/><path d="M17.9 25.4 L17 25.2"/><path d="M29.8 24.4 L30.5 23.7"/><path d="M30.1 25.4 L31 25.2"/></g><circle cx="20.2" cy="25.9" r="1.45" fill="#CBB7BF"/><circle cx="27.8" cy="25.9" r="1.45" fill="#CBB7BF"/><circle cx="20.8" cy="29.6" r="1.05" fill="#E4A98C" opacity="0.55"/><circle cx="27.2" cy="29.6" r="1.05" fill="#E4A98C" opacity="0.55"/><ellipse cx="24" cy="29.1" rx="1.8" ry="2.25" fill="#3B3B3B"/><ellipse cx="23.45" cy="28.45" rx="0.4" ry="0.3" fill="#fff" opacity="0.5"/><circle cx="22" cy="27.3" r="0.8" fill="#3B3B3B"/><circle cx="26" cy="27.3" r="0.8" fill="#3B3B3B"/><circle cx="22.25" cy="27.05" r="0.26" fill="#fff"/><circle cx="26.25" cy="27.05" r="0.26" fill="#fff"/><g transform="translate(24 12) rotate(0) scale(1.25)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(18 12.6) rotate(-15) scale(1.08)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(30 12.6) rotate(15) scale(1.08)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(12.5 14.6) rotate(-46) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#3F7D5C" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(35.5 14.6) rotate(46) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#3F7D5C" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(24 15.9) rotate(0) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(19 15.7) rotate(-12) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#3F7D5C" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(29 15.7) rotate(12) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#3F7D5C" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(15 16.7) rotate(-28) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(33 16.7) rotate(28) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#357056" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/></g><g transform="translate(24 7) rotate(0) scale(1.2)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#5BA079" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(19 8.2) rotate(-18) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(29 8.2) rotate(18) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(14.5 10.8) rotate(-36) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(33.5 10.8) rotate(36) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(10.8 14) rotate(-64) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(37.2 14) rotate(64) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(20 11) rotate(-14) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#5BA079" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(28 11) rotate(14) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(24 11.4) rotate(0) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(14.5 17.3) rotate(-26) scale(0.9)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(18 18) rotate(-10) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(21.4 18.4) rotate(-4) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(24 18.6) rotate(0) scale(1.05)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#5BA079" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(26.6 18.4) rotate(4) scale(1.0)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(30 18) rotate(10) scale(0.95)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#46896A" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(33.5 17.3) rotate(26) scale(0.9)"><path d="M0 1 Q1.1 0.2 1.2 -1.3 Q2.6 -1.5 3.9 -2.4 Q3.1 -2.1 3.3 -3.5 Q3.5 -4.5 2.3 -4.3 Q2.2 -5.5 1 -6.1 Q0.5 -6.8 0 -7.1 Q-0.5 -6.8 -1 -6.1 Q-2.2 -5.5 -2.3 -4.3 Q-3.5 -4.5 -3.3 -3.5 Q-3.1 -2.1 -3.9 -2.4 Q-2.6 -1.5 -1.2 -1.3 Q-1.1 0.2 0 1 Z" fill="#54996F" stroke="#2F6B4F" stroke-width="0.22" stroke-linejoin="round"/><path d="M0 0.6 L0 -6" stroke="#2F6B4F" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M0 -2 L1.6 -3.2 M0 -2 L-1.6 -3.2 M0 -3.6 L1.3 -4.7 M0 -3.6 L-1.3 -4.7" stroke="#2F6B4F" stroke-width="0.2" fill="none" opacity="0.38"/><path d="M-0.6 -1.6 Q-1.4 -3.4 -0.8 -5.2" stroke="#86C6A0" stroke-width="0.55" fill="none" stroke-linecap="round" opacity="0.55"/></g><g transform="translate(13 17) rotate(202)"><path d="M0 -0.4 L0 -2" stroke="#6E4527" stroke-width="0.4"/><path d="M-1.1 0 Q0 -1.1 1.1 0 Q0 1.9 -1.1 0 Z" fill="#6E4527"/><path d="M-0.9 0 Q0 -0.7 0.9 0" stroke="#8A5A3C" stroke-width="0.25" fill="none" opacity="0.8"/></g><g transform="translate(35 16.8) rotate(158)"><path d="M0 -0.4 L0 -2" stroke="#6E4527" stroke-width="0.4"/><path d="M-1.1 0 Q0 -1.1 1.1 0 Q0 1.9 -1.1 0 Z" fill="#6E4527"/><path d="M-0.9 0 Q0 -0.7 0.9 0" stroke="#8A5A3C" stroke-width="0.25" fill="none" opacity="0.8"/></g></svg></span>Kurrajong Homestays</div>
+      <span class="roleTag" id="roleTag"></span>
+    </div>
+  </header>
+
+  <div class="prog" id="prog">
+    <div class="ptrack"><div class="pfill" id="pfill"></div></div>
+    <div class="pmeta"><span>Step <span id="pcur">1</span> of <span id="ptot">1</span></span><span id="pstepname"></span></div>
+  </div>
+
+  <div id="card"></div>
+</div>
+
+<script>
+/* ============ step config ============ */
+const C = {
+  host:[
+    {name:'About you', title:'Let\u2019s set up your host account', sub:'The basics \u2014 you\u2019ll verify your identity next.', fields:[
+      {id:'hName',  type:'text',   label:'Full name', ph:'As shown on your ID'},
+      {id:'hEmail', type:'email',  label:'Email', ph:'you@email.com'},
+      {id:'hSuburb',type:'text',   label:'Suburb', ph:'e.g. Robina or Southport'},
+      {id:'hWho',   type:'opt-single', label:'Who lives in your home?', opts:['Just me','Couple','Family with children','Shared with other adults']},
+    ]},
+    {name:'Location', title:'Where\u2019s your home?', sub:'We only list homes within 60 minutes\u2019 public transport of a campus. Let\u2019s check the commute to Bond and Griffith.', locate:true},
+    {name:'Identity', title:'Verify your identity', sub:'A safe home starts with knowing who\u2019s in it. We run a 100-point ID check.', verify:true},
+    {name:'Police check', title:'Your police check', sub:'Every host is screened \u2014 this is what families and universities trust Kurrajong for.', check:'host'},
+    {name:'Your home', title:'Tell us about your home', sub:'This becomes your listing \u2014 you can edit it later.', fields:[
+      {id:'hRoom', type:'opt-single', label:'Room offered', opts:['Private room','Private room + ensuite','Studio / granny flat']},
+      {id:'hBath', type:'opt-single', label:'Bathroom', opts:['Private','Shared']},
+      {id:'hMeals',type:'opt-single', label:'Meals included', opts:['No meals','Breakfast','Breakfast + dinner','All meals']},
+      {id:'hRate', type:'money', label:'Weekly rate', suffix:'/week'},
+      {id:'hLang', type:'opt-multi', label:'Languages spoken at home', opts:['English','Mandarin','Spanish','Japanese','Vietnamese','Other']},
+      {id:'hStay', type:'opt-single', label:'Minimum stay', opts:['1 semester (\u22484 mo)','2 semesters','Full year','Flexible']},
+    ]},
+    {name:'Preferences', title:'Your hosting preferences', sub:'We use these to match the right students to you.', fields:[
+      {id:'hPref', type:'opt-multi', label:'I\u2019d prefer a student who is\u2026', opts:['Any student is welcome','Non-smoker','Quiet & studious','Speaks my language','OK with pets']},
+    ]},
+    {name:'Fees', title:'Joining & fees', sub:'Transparent, and built to keep everyone verified.', fees:'host'},
+    {name:'Review', title:'Review & submit', sub:'Check everything looks right before we begin verification.', review:true},
+  ],
+  student:[
+    {name:'About you', title:'Let\u2019s set up your student account', sub:'You must be 18 or older to use Kurrajong.', fields:[
+      {id:'sName', type:'text',  label:'Full name', ph:'As shown on your passport'},
+      {id:'sEmail',type:'email', label:'Email', ph:'you@email.com'},
+      {id:'sNat',  type:'text',  label:'Nationality', ph:'e.g. Indonesia'},
+      {id:'sAge',  type:'opt-single', label:'Age', opts:['I am 18 or older']},
+    ]},
+    {name:'Identity', title:'Verify your identity', sub:'We confirm your passport so hosts know exactly who they\u2019re welcoming.', verify:true},
+    {name:'Police check', title:'Your police check', sub:'Hosts are opening their home. A valid check makes that an easy yes.', check:'student'},
+    {name:'Study', title:'Your study plans', sub:'Kurrajong is for placements of four months or more.', fields:[
+      {id:'sInst', type:'text', label:'Institution', ph:'e.g. Bond University'},
+      {id:'sProg', type:'text', label:'Program', ph:'e.g. Master of Laws'},
+      {id:'sIntake', type:'opt-single', label:'Intake', opts:['January','February','May','July','September','Other']},
+      {id:'sLen', type:'opt-single', label:'Length of stay', opts:['1 semester (\u22484 mo)','2 semesters','Full year','Longer']},
+    ]},
+    {name:'Preferences', title:'Your living preferences', sub:'We score every host against these.', fields:[
+      {id:'sCampus', type:'opt-single', label:'Campus', opts:['Bond University','Griffith University']},
+      {id:'sBudget', type:'money', label:'Weekly budget', suffix:'/week'},
+      {id:'sMeals', type:'opt-single', label:'Meals', opts:['No preference','Breakfast','Breakfast + dinner','All meals']},
+      {id:'sMust', type:'opt-multi', label:'Must-haves', opts:['Private bathroom','Study desk','Quiet home','Pet-free','My language spoken']},
+    ]},
+    {name:'Fees', title:'Joining & fees', sub:'Transparent, and built to keep every host verified.', fees:'student'},
+    {name:'Review', title:'Review & submit', sub:'Check everything looks right before we begin verification.', review:true},
+  ]
+};
+
+/* ============ state ============ */
+let role=null, step=0, data={};
+let verified=false, ordered=false, uploaded=false, feeAck=false;
+let locResult=null, locMin=0, locCampus='', appealSent=false;
+
+function resetState(){
+  step=0; data={};
+  verified=false; ordered=false; uploaded=false; feeAck=false;
+  locResult=null; locMin=0; locCampus=''; appealSent=false;
+}
+
+/* ============ small helpers ============ */
+const CK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+function set(id,val){data[id]=val; render();}
+function toggleMulti(id,val){const a=data[id]||[]; data[id]=a.includes(val)?a.filter(x=>x!==val):[...a,val]; render();}
+
+/* ============ field renderer ============ */
+function fieldHtml(f){
+  const v = data[f.id];
+  if(f.type==='text' || f.type==='email'){
+    return `<div class="field"><label>${f.label}</label>
+      <input type="${f.type}" placeholder="${f.ph||''}" value="${v||''}" oninput="data['${f.id}']=this.value;refreshNav()"></div>`;
+  }
+  if(f.type==='money'){
+    return `<div class="field"><label>${f.label}</label>
+      <div class="moneywrap"><span class="pre">$</span>
+        <input type="number" min="0" placeholder="0" value="${v||''}" oninput="data['${f.id}']=this.value;refreshNav()">
+        ${f.suffix?`<span class="suf">${f.suffix}</span>`:''}</div></div>`;
+  }
+  if(f.type==='opt-single'){
+    return `<div class="field"><label>${f.label}</label><div class="opts">${
+      f.opts.map(o=>`<span class="opt ${v===o?'on':''}" onclick="set('${f.id}','${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')
+    }</div></div>`;
+  }
+  if(f.type==='opt-multi'){
+    const arr = data[f.id]||[];
+    return `<div class="field"><label>${f.label}</label><div class="opts">${
+      f.opts.map(o=>`<span class="opt ${arr.includes(o)?'on':''}" onclick="toggleMulti('${f.id}','${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')
+    }</div></div>`;
+  }
+  return '';
+}
+
+/* ============ step blocks ============ */
+function verifyBlock(){
+  if(verified){
+    return `<div class="statebox ok"><span class="si">${CK}</span><div><b>Identity verified</b><p>Your document was matched successfully. Hosts will see your verified badge \u2014 never your document.</p></div></div>`;
+  }
+  return `<div class="idart"><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 9h4M14 13h4M5 15c1-1.6 5-1.6 6 0"/></svg></span>
+      <div><b>100-point ID check</b><p>Passport or driver licence + a quick liveness selfie. Takes about a minute.</p></div></div>
+    <div class="vbox" id="vbox"></div>
+    <button class="vbtn" id="vbtn" onclick="runVerify()">Verify my identity</button>
+    <p class="vnote">We use a bank-grade identity provider. Your ID is checked, then stored encrypted with tight access controls under the Privacy Act.</p>`;
+}
+function runVerify(){
+  const box=document.getElementById('vbox'), btn=document.getElementById('vbtn');
+  btn.disabled=true; btn.textContent='Verifying\u2026'; box.innerHTML='<div class="spin"></div>';
+  setTimeout(()=>{verified=true; render();}, 1600);
+}
+
+function checkBlock(which){
+  const note = which==='host'
+    ? 'A National Police Check, ordered direct from the AFP, is about $56 and usually arrives digitally within a few days. We re-check yearly while you host.'
+    : 'In Australia, order a National Police Check from the AFP (~$56). From overseas, get a police certificate from your home country \u2014 often already required for your student visa.';
+  if(ordered){
+    return `<div class="statebox ok"><span class="si">${CK}</span><div><b>Police check ordered</b><p>Results usually arrive in 1\u20133 business days. You can keep going \u2014 we\u2019ll verify it against your ID the moment it lands.</p></div></div>`;
+  }
+  if(uploaded){
+    return `<div class="statebox ok"><span class="si">${CK}</span><div><b>Check uploaded</b><p>We\u2019ll verify it against your identity. It must be current (issued within 90 days).</p></div></div>`;
+  }
+  return `<p class="vnote" style="margin-top:0;margin-bottom:14px">${note}</p>
+    <div class="vrow">
+      <a class="vbtn" style="text-decoration:none;text-align:center" href="https://www.afp.gov.au/checks-and-pricing/police-checks" target="_blank" rel="noopener" onclick="ordered=true;setTimeout(render,50)">Order direct from the AFP</a>
+      <button class="vbtn alt" onclick="uploaded=true;render()">I\u2019ll upload an existing check</button>
+    </div>
+    <p class="vnote">You pay the provider directly \u2014 Kurrajong doesn\u2019t collect or mark up the fee. Checks must be current (within 90 days) and bound to your verified identity.</p>`;
+}
+
+const NEAR = {
+  robina:{m:15,c:'Bond'}, varsity:{m:12,c:'Bond'}, burleigh:{m:30,c:'Bond'}, mudgeeraba:{m:35,c:'Bond'}, nerang:{m:40,c:'Bond'},
+  southport:{m:11,c:'Griffith'}, surfers:{m:19,c:'Griffith'}, 'main beach':{m:15,c:'Griffith'}, labrador:{m:18,c:'Griffith'},
+  parkwood:{m:14,c:'Griffith'}, broadbeach:{m:27,c:'Griffith'}, helensvale:{m:32,c:'Griffith'}
+};
+function locateBlock(){
+  let html = `<div class="field"><label>Street address or suburb</label>
+      <input type="text" placeholder="e.g. 14 Scarborough St, Southport" value="${data.hAddr||''}" oninput="data.hAddr=this.value"></div>
+    <button class="vbtn" onclick="runLocate()">Check my commute</button>
+    <p class="vnote">We estimate door-to-campus time by public transport \u2014 train, tram, bus and walking \u2014 to Bond and Griffith.</p>`;
+  if(locResult==='pass'){
+    html += `<div class="statebox ok" style="margin-top:14px"><span class="si">${CK}</span><div><b>${locMin} min to ${locCampus} \u2014 you\u2019re within the area</b><p>Estimated on a typical weekday morning. You\u2019re good to list your home.</p></div></div>`;
+  } else if(locResult==='over'){
+    html += `<div class="statebox warn" style="margin-top:14px"><div style="width:100%">
+        <b style="color:var(--clay)">About ${locMin} min \u2014 just outside our 60-minute area</b>
+        <p>We can\u2019t auto-list homes over an hour from a campus. If you think that\u2019s wrong, or you can still offer a great commute (a lift, a route we missed), write in and a person will review it.</p>`;
+    if(!appealSent){
+      html += `<textarea class="appeal" placeholder="Tell us why you think you fit (optional)" oninput="data.appeal=this.value"></textarea>
+        <button class="vbtn" style="margin-top:10px" onclick="requestReview()">Request a manual review</button>`;
+    } else {
+      html += `<div class="statebox ok" style="margin-top:12px"><span class="si">${CK}</span><div><b>Review requested</b><p>Thanks \u2014 someone will look at your commute and be in touch. You can keep going in the meantime.</p></div></div>`;
+    }
+    html += `</div></div>`;
+  }
+  return html;
+}
+function runLocate(){
+  const v=(data.hAddr||'').toLowerCase();
+  let hit=null;
+  for(const k in NEAR){ if(v.includes(k)){ hit=NEAR[k]; break; } }
+  if(hit){locResult='pass'; locMin=hit.m; locCampus=hit.c;}
+  else{locResult='over'; locMin=72;}
+  appealSent=false; render();
+}
+function requestReview(){appealSent=true; render();}
+
+function feesBlock(which){
+  const svc = which==='host'
+    ? '5% of weekly rent, retained from each payment. Funds yearly re-checks, host insurance, and 24/7 support.'
+    : '5% added to your weekly rent. Funds yearly re-checks, your cover, and 24/7 support while you stay.';
+  return `
+    <div class="fee"><div class="l"><b>Refundable deposit <span class="tagpill pill-ref">Refundable</span></b>
+      <p>Placed as a hold on your card \u2014 never charged, never touched by us. Released when you\u2019re matched, or after 12 months if no placement comes up.</p></div><div class="amt">$35</div></div>
+    <div class="fee"><div class="l"><b>Police & ID check <span class="tagpill pill-once">Paid to provider</span></b>
+      <p>You order your National Police Check directly from the authority (~$56). You pay the provider, not us \u2014 we don\u2019t collect it or mark it up.</p></div><div class="amt">~$56</div></div>
+    <div class="fee"><div class="l"><b>Service fee <span class="tagpill pill-on">Ongoing</span></b>
+      <p>${svc}</p></div><div class="amt">5%</div></div>
+    <div class="consent ${feeAck?'on':''}" onclick="feeAck=!feeAck;render()" style="margin-top:18px">
+      <div class="box">${CK}</div>
+      <div class="txt"><b>I understand the fees</b>Deposit is a refundable hold \u00b7 I pay for my own police check \u00b7 the 5% ongoing fee keeps everyone verified.</div>
+    </div>`;
+}
+
+function reviewBlock(){
+  const order = role==='host'
+    ? [['Name','hName'],['Email','hEmail'],['Suburb','hSuburb'],['Household','hWho'],['Room','hRoom'],['Bathroom','hBath'],['Meals','hMeals'],['Weekly rate','hRate','$'],['Languages','hLang'],['Min. stay','hStay']]
+    : [['Name','sName'],['Email','sEmail'],['Nationality','sNat'],['Institution','sInst'],['Program','sProg'],['Intake','sIntake'],['Length','sLen'],['Campus','sCampus'],['Budget','sBudget','$'],['Must-haves','sMust']];
+  const rows = order.map(([k,id,pre])=>{
+    let val=data[id]; if(Array.isArray(val)) val=val.join(', ');
+    if(!val) return '';
+    return `<div class="r"><span class="k">${k}</span><span class="v">${(pre||'')+val}</span></div>`;
+  }).join('');
+  return `<div class="rev">${rows || '<div class="r"><span class="k">No details entered yet</span><span class="v"></span></div>'}</div>
+    <div class="consent on"><div class="box">${CK}</div>
+      <div class="txt"><b>Identity verified \u00b7 background check consented</b>We\u2019ll begin screening as soon as you submit.</div></div>`;
+}
+
+/* ============ gating ============ */
+function canNext(){
+  const s = C[role][step];
+  if(s.verify) return verified;
+  if(s.locate) return locResult==='pass' || appealSent;
+  if(s.check)  return ordered || uploaded;
+  if(s.fees)   return feeAck;
+  if(s.review) return true;
+  if(s.fields){
+    return s.fields.every(f=>{
+      if(f.type==='opt-multi') return true;
+      const v=data[f.id];
+      return v!==undefined && v!==null && String(v).trim()!=='';
+    });
+  }
+  return true;
+}
+function refreshNav(){
+  const btn=document.getElementById('nextBtn');
+  if(btn) btn.disabled = !canNext();
+}
+
+/* ============ role select ============ */
+function roleSelect(){
+  document.getElementById('prog').classList.remove('show');
+  document.getElementById('roleTag').classList.remove('show');
+  document.getElementById('card').innerHTML = `
+    <div class="intro">
+      <h1>Join <em>Kurrajong</em>.</h1>
+      <p>Every host and every student is identity-checked and background-screened. Choose how you\u2019re joining.</p>
+    </div>
+    <div class="roles">
+      <button class="role" onclick="start('host')">
+        <span class="ic" style="background:linear-gradient(135deg,#1B4A40,#3F7D5C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>
+        <h3>I\u2019m a host</h3><p>Open your home to a vetted student near Bond or Griffith.</p>
+      </button>
+      <button class="role" onclick="start('student')">
+        <span class="ic" style="background:linear-gradient(135deg,#C75B39,#E4A98C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 5 2 9l10 4 10-4z"/><path d="M6 11v4c0 1 3 2.4 6 2.4s6-1.4 6-2.4v-4"/></svg></span>
+        <h3>I\u2019m a student</h3><p>Find a safe, well-located homestay for your studies.</p>
+      </button>
+    </div>`;
+}
+function start(r){
+  role=r; resetState();
+  const tag=document.getElementById('roleTag');
+  tag.classList.add('show');
+  tag.textContent = r==='host' ? 'Host application' : 'Student application';
+  document.getElementById('prog').classList.add('show');
+  document.getElementById('ptot').textContent = C[role].length;
+  render();
+}
+
+/* ============ main render ============ */
+function render(){
+  if(!role){ roleSelect(); return; }
+  const s = C[role][step];
+  document.getElementById('pfill').style.width = (step/(C[role].length-1)*100)+'%';
+  document.getElementById('pcur').textContent = step+1;
+  document.getElementById('pstepname').textContent = s.name;
+
+  let inner = `<h2 class="step-h">${s.title}</h2><p class="step-sub">${s.sub}</p>`;
+  if(s.fields){
+    inner += s.fields.map(fieldHtml).join('');
+  }
+  else if(s.locate){ inner += locateBlock(); }
+  else if(s.verify){ inner += verifyBlock(); }
+  else if(s.check){ inner += checkBlock(s.check); }
+  else if(s.fees){ inner += feesBlock(s.fees); }
+  else if(s.review){ inner += reviewBlock(); }
+
+  const last = step===C[role].length-1;
+  inner += `<div class="nav">
+      <button class="back" onclick="prev()">${step===0?'\u2190 Back':'Back'}</button>
+      <button class="next" id="nextBtn" onclick="next()">${last?'Submit application':'Continue'}</button>
+    </div>`;
+
+  document.getElementById('card').innerHTML = `<div class="panel">${inner}</div>`;
+  refreshNav();
+}
+
+function next(){
+  if(!canNext()) return;
+  if(step===C[role].length-1){ finish(); return; }
+  step++; render(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function prev(){
+  if(step===0){ role=null; render(); return; }
+  step--; render(); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============ success ============ */
+function finish(){
+  document.getElementById('prog').classList.remove('show');
+  const name = (data.hName||data.sName||'').split(' ')[0] || 'there';
+  document.getElementById('card').innerHTML = `
+    <div class="panel"><div class="done-screen">
+      <div class="big">${CK}</div>
+      <h2>You\u2019re in the queue, ${name}.</h2>
+      <p>Your application is submitted and your background check has started. Here\u2019s what happens next:</p>
+      <div class="timeline">
+        <div class="tl"><div class="n cur">1</div><div><p>Background check running</p><span>National Police Check \u2014 usually 1\u20133 business days</span></div></div>
+        <div class="tl"><div class="n">2</div><div><p>${role==='host'?'Listing goes live':'Matching begins'}</p><span>${role==='host'?'We\u2019ll start showing your home to matched students':'You\u2019ll see your top-fit homes, ranked by commute and fit'}</span></div></div>
+        <div class="tl"><div class="n">3</div><div><p>First placement</p><span>Your $35 deposit is released once you\u2019re matched</span></div></div>
+      </div>
+      <div class="nav"><button class="next" onclick="role=null;render()">Back to start</button></div>
+    </div></div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
