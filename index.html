@@ -262,6 +262,44 @@
   .footlinks a:hover{color:var(--clay)}
   .legal{font-size:11.5px;color:var(--ink-soft);padding:0 0 28px}
   @media(max-width:520px){.logo{font-size:18px}.logo svg{width:34px;height:34px}.nav-cta{padding:9px 12px;font-size:13.5px}}
+
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
+.listing-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:.2s}
+.listing-card:hover{transform:translateY(-3px);box-shadow:0 4px 6px rgba(38,32,25,.05),0 16px 40px rgba(38,32,25,.12)}
+.lcard-photo{height:155px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative}
+.lcard-photo.host-photo{background:linear-gradient(135deg,#EAF2EC,#D2E4D6)}
+.lcard-photo.student-photo{background:linear-gradient(135deg,#FBF0E4,#F3E2CE)}
+.lcard-badge{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.badge-verified{background:var(--ok);color:#fff}
+.badge-new{background:var(--gold);color:#fff}
+.lcard-body{padding:20px}
+.lcard-name{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:2px}
+.lcard-sub{font-size:13px;color:var(--ink-soft);margin-bottom:12px}
+.lcard-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--mint);color:var(--pine);border:1px solid var(--mint-line)}
+.lcard-details{display:flex;flex-direction:column;gap:7px;font-size:13.5px;color:var(--ink-soft)}
+.lcard-row{display:flex;align-items:flex-start;gap:7px}
+.lcard-row svg{width:14px;height:14px;flex-shrink:0;color:var(--pine);margin-top:2px}
+.lcard-bio{font-size:13px;color:var(--ink);margin-top:8px;line-height:1.55}
+.lcard-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--sand)}
+.lcard-price{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--pine)}
+.lcard-price span{font-family:'Hanken Grotesk',sans-serif;font-size:12px;font-weight:400;color:var(--ink-soft)}
+.lcard-ok{font-size:12px;font-weight:600;color:var(--ok);display:flex;align-items:center;gap:5px}
+.lcard-ok svg{width:13px;height:13px}
+.docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:940px;margin:0 auto}
+@media(max-width:700px){.docs-grid{grid-template-columns:1fr}}
+.docs-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 28px;box-shadow:var(--shadow)}
+.docs-card h3{font-size:18px;margin-bottom:4px}
+.docs-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px}
+.doc-list{list-style:none;display:flex;flex-direction:column;gap:11px}
+.doc-list li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.5}
+.doc-list li svg{width:16px;height:16px;flex-shrink:0;margin-top:2px}
+.doc-list li.req svg{color:var(--clay)}
+.doc-list li.cond svg{color:var(--gold)}
+.doc-legend{display:flex;gap:22px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink-soft)}
+.doc-legend span{display:flex;align-items:center;gap:5px}
+.doc-legend svg{width:13px;height:13px}
+
 </style>
 </head>
 <body>
@@ -277,7 +315,7 @@
       <a href="#safety">Safety</a>
       <a href="#students">For students</a>
       <a href="#hosts">For hosts</a>
-      <a class="btn btn-primary nav-cta" href="#join">Join the waitlist</a>
+      <a href="#listings">Browse</a><a href="#documents">Documents</a><a class="btn btn-primary nav-cta" href="#join">Join the waitlist</a>
     </nav>
   </div>
 </header>
@@ -385,6 +423,45 @@
   </div>
 </section>
 
+
+<section id="listings" class="alt" style="padding-top:60px;padding-bottom:60px">
+<div class="wrap">
+<div class="sec-h"><div class="kicker">Browse the waitlist</div><h2>Who’s already on board.</h2><p>Sample profiles from host families and students currently registered. Personal contact details stay private until both sides are police-checked and verified.</p></div>
+<div class="toggle-row"><div class="toggle" role="tablist" aria-label="Browse listings by"><button id="listHost" class="on" role="tab" aria-selected="true" onclick="showListings('host')">Host families (10)</button><button id="listStudent" role="tab" aria-selected="false" onclick="showListings('student')">Students (10)</button></div></div>
+<div class="listing-grid" id="listingGrid"></div>
+</div>
+</section>
+<section id="documents">
+<div class="wrap">
+<div class="sec-h"><div class="kicker">What you’ll need</div><h2>Required documents — both sides.</h2><p>Every placement clears the same verification checklist before contact details are exchanged. Here’s exactly what each party needs to provide.</p></div>
+<div class="docs-grid">
+<div class="docs-card"><h3>For hosts</h3><p class="docs-sub">Required before your listing goes live and contact details are shared</p>
+<ul class="doc-list">
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v5c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V6z"/><path d="M9 12l2 2 4-4"/></svg><span>National Police Check (AFP) — current within 12 months, re-checked annually</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 9h4M14 13h4M5 15c1-1.6 5-1.6 6 0"/></svg><span>100-point ID verification — passport or driver licence + Medicare card or rates notice</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Proof of right to sublet — land title or written landlord consent to homestay</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Completed host profile — household members, pets, house rules, meals offered, room photos</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v13H3z"/><path d="M8 21h8M12 16v5"/></svg><span>Home inspection photos — student’s room, bathroom, kitchen and common areas</span></li>
+<li class="cond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg><span>Working with Children Check — required if anyone under 18 lives in the home</span></li>
+<li class="cond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg><span>Smoke alarm compliance certificate and pool fence cert (if applicable)</span></li>
+</ul>
+<div class="doc-legend"><span><svg viewBox="0 0 24 24" fill="none" stroke="#C75B39" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v5c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V6z"/><path d="M9 12l2 2 4-4"/></svg>Required</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="#D9A441"/></svg>Conditional</span></div>
+</div>
+<div class="docs-card"><h3>For students &amp; working holiday makers</h3><p class="docs-sub">Required before placement contact is unlocked</p>
+<ul class="doc-list">
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v5c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V6z"/><path d="M9 12l2 2 4-4"/></svg><span>National Police Check (AFP) — <a href="https://www.afp.gov.au/nationally-coordinated-criminal-history-check" target="_blank" rel="noopener" style="color:var(--clay)">order direct from AFP (~$56)</a>, current within 12 months</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 9h4M14 13h4M5 15c1-1.6 5-1.6 6 0"/></svg><span>Passport (international students and WHM holders) or driver licence (domestic students)</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><span>Enrolment confirmation or offer letter (students) / WHM visa grant notice (working holiday makers)</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Completed student profile — dietary needs, study schedule, budget, lifestyle preferences</span></li>
+<li class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Emergency contact — name, relationship and phone number (parent or guardian preferred)</span></li>
+<li class="cond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg><span>OSHC certificate (Overseas Student Health Cover) — mandatory for student visa holders</span></li>
+<li class="cond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg><span>Reference from previous accommodation — optional but helpful for international students</span></li>
+</ul>
+<div class="doc-legend"><span><svg viewBox="0 0 24 24" fill="none" stroke="#C75B39" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v5c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V6z"/><path d="M9 12l2 2 4-4"/></svg>Required</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="#D9A441"/></svg>Conditional</span></div>
+</div>
+</div>
+</div>
+</section>
 <section id="join">
   <div class="wrap joinwrap">
     <div class="sec-h">
@@ -454,7 +531,7 @@
       <p>Safe, vetted homestays for students and working holiday makers on the Gold Coast — police-checked hosts, within an hour of where you study or work.</p>
     </div>
     <nav class="footlinks" aria-label="Footer">
-      <a href="#how">How it works</a><a href="#safety">Safety</a><a href="#students">For students</a><a href="#hosts">For hosts</a><a href="#join">Join</a><a href="kurrajong-resources.html">QLD legal forms</a>
+      <a href="#how">How it works</a><a href="#safety">Safety</a><a href="#listings">Browse</a><a href="#documents">Docs</a><a href="#students">For students</a><a href="#hosts">For hosts</a><a href="#join">Join</a><a href="kurrajong-resources.html">QLD legal forms</a>
     </nav>
   </div>
   <div class="wrap legal">© 2026 Kurrajong Homestays Homestays. Last updated June 2026. General information only — not legal or financial advice. Homestay placements are subject to verification.</div>
@@ -552,6 +629,74 @@ document.getElementById('waitForm').addEventListener('submit',function(e){
   // Send to Google Sheets (fire-and-forget, no-cors)
   fetch('https://script.google.com/macros/s/AKfycbw-Rr3GxemZpOaUWJJWEGPHQcz1ErkkQls5513giw4gxVhrGYdvLOzV9v7SZfhlNTCW6A/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({role,name,email,campus,when,source:'website'})}).catch(function(){});
 });
+
+
+const HOSTS=[
+{name:'The Nguyen Family',suburb:'Robina',e:'🏡',meals:'Full board',rate:360,cap:2,placed:1,bBond:'22 min',bGriff:'18 min',tags:['Full board','Garden','Ensuite room','Free WiFi'],bio:'Vietnamese-Australian couple and teenage daughter. Home-cooked dinners nightly, quiet neighbourhood, large private room with desk and ensuite. 3 years hosting experience.',badge:'verified'},
+{name:"The O'Brien Family",suburb:'Burleigh Heads',e:'🌊',meals:'Breakfast & dinner',rate:340,cap:2,placed:0,bBond:'35 min',bGriff:'28 min',tags:['Near beach','Dog-friendly','Laundry incl.','Deck & BBQ'],bio:'Retired couple 5 min walk from Burleigh beach. Friendly golden retriever (Scout). Flexible meal times, large outdoor deck. Happy to host long-term stays.',badge:'verified'},
+{name:'The Patel Family',suburb:'Southport',e:'🏠',meals:'Full board',rate:380,cap:2,placed:1,bBond:'14 min',bGriff:'12 min',tags:['Full board','Vegetarian kitchen','Near light rail','AC room'],bio:'Gujarati-Australian family, strict vegetarian kitchen. Walking distance to Southport G:link stop. 2 min to Woolworths. Quiet study environment, fast NBN.',badge:'verified'},
+{name:'The Chen Family',suburb:'Varsity Lakes',e:'🌿',meals:'Breakfast only',rate:295,cap:2,placed:2,bBond:'12 min',bGriff:'8 min',tags:['Budget-friendly','Pool in complex','Study-quiet','Near Griffith'],bio:'Young professional couple with a toddler. Breakfast provided, kitchen available for dinner. Pool in complex, 5 min walk to Griffith Gold Coast campus.',badge:'verified'},
+{name:'Sandra & Mark W.',suburb:'Hope Island',e:'🌺',meals:'Full board',rate:370,cap:1,placed:0,bBond:'48 min',bGriff:'40 min',tags:['Full board','Canal views','Female preferred','Quiet home'],bio:'Empty-nesters with a private room overlooking the canal. Sandra is a retired teacher, Mark works remotely. Female students preferred. Exceptional home cooking.',badge:'new'},
+{name:'The Kowalski Family',suburb:'Mermaid Waters',e:'🏘️',meals:'Dinner nightly',rate:320,cap:1,placed:1,bBond:'25 min',bGriff:'20 min',tags:['Dinner nightly','Garage parking','Large room','Near bus'],bio:'Polish-Australian family with outstanding home cooking. Large room with own mini-fridge and TV. One direct bus to Bond. Happy to assist new arrivals settle in.',badge:'verified'},
+{name:'Fiona & David T.',suburb:'Palm Beach',e:'🌴',meals:'Breakfast & dinner',rate:350,cap:2,placed:0,bBond:'42 min',bGriff:'52 min',tags:['Near beach','2 rooms avail.','Study lounge','Surfer welcome'],bio:'Casual family 8 min from Palm Beach. Two rooms available — can host two students. David is a paramedic, Fiona works in education. Very relaxed household.',badge:'new'},
+{name:'The Kim Family',suburb:'Helensvale',e:'🏯',meals:'Full board',rate:365,cap:2,placed:1,bBond:'30 min',bGriff:'22 min',tags:['Full board','Korean kitchen','Light rail walk','6 yrs exp.'],bio:'Korean-Australian family with 6 years homestay experience. Delicious home cooking. Walking distance to Helensvale G:link. Warm and very organised household.',badge:'verified'},
+{name:'Jenny & Ross H.',suburb:'Labrador',e:'🏖️',meals:'Full board',rate:345,cap:2,placed:0,bBond:'18 min',bGriff:'22 min',tags:['Full board','Near Broadwater','Two friendly cats','English practice'],bio:'Energetic couple in their 50s with two indoor cats. Excellent home cooking, strong English-practice environment. Ross is a local tourism guide.',badge:'verified'},
+{name:'The Ahmadi Family',suburb:'Coomera',e:'🌾',meals:'Full board',rate:330,cap:2,placed:1,bBond:'58 min',bGriff:'50 min',tags:['Full board','Halal kitchen','Train access','Spacious house'],bio:'Afghan-Australian family with a halal kitchen in a large 4-bedroom house near Coomera train station. Warm and welcoming — genuine family experience.',badge:'verified'}
+];
+const STUDENTS=[
+{name:'Yuki T.',origin:'Osaka, Japan',e:'🎓',campus:'Bond University',course:'Bachelor of Laws',start:'Jan 2026',dur:'2 years',budget:360,meals:'Full board',gender:'Female, 22',tags:['Early riser','Very tidy','Non-smoker','Police check done'],bio:'First time living abroad. Studious and organised — keeps an immaculate room. Loves cooking Japanese food on weekends and morning runs. Seeks a warm, quiet family.',badge:'verified'},
+{name:'Marco R.',origin:'São Paulo, Brazil',e:'🏄',campus:'Bond University',course:'MBA',start:'Jan 2026',dur:'16 months',budget:350,meals:'Breakfast & dinner',gender:'Male, 28',tags:['Sociable','Surfer','Good cook','Non-smoker'],bio:'Employer-sponsored MBA student. Active, sociable and tidy. Loves surfing and cooking Brazilian food on weekends. Professional references available.',badge:'verified'},
+{name:'Priya M.',origin:'Mumbai, India',e:'📚',campus:'Griffith (GC)',course:'Master of Accounting',start:'Feb 2026',dur:'18 months',budget:320,meals:'Full board (veg)',gender:'Female, 25',tags:['Strict vegetarian','Studious','Early riser','Police check done'],bio:'Former Deloitte India employee. Very studious, strong English. Prefers a vegetarian household. Keeps an immaculate room, studies evenings. Police check complete.',badge:'verified'},
+{name:'Tom B.',origin:'Brisbane, QLD',e:'🏋️',campus:'Bond University',course:'Bachelor of Sport Mgmt',start:'Jan 2026',dur:'3 years',budget:300,meals:'Breakfast only',gender:'Male, 19',tags:['Has own car','Gym-goer','Outdoorsy','First time away'],bio:'Interstate student from Brisbane with his own car — transport flexible. Tidy and easy-going. Looking for a friendly family feel while away from home for the first time.',badge:'new'},
+{name:'Mei-Ling C.',origin:'Taipei, Taiwan',e:'🎨',campus:'Bond University',course:'Bachelor of Design',start:'Jan 2026',dur:'3 years',budget:340,meals:'Dinner only',gender:'Female, 21',tags:['Creative','Night owl','Non-smoker','Often cooks'],bio:'Design major, creative and curious. Keeps unusual hours but very considerate of noise. Excellent cook, regularly shares Asian snacks. Police check complete.',badge:'verified'},
+{name:'Callum W.',origin:'Melbourne, VIC',e:'🎸',campus:'Griffith (GC)',course:'Bachelor of Music',start:'Feb 2026',dur:'3 years',budget:310,meals:'Breakfast & dinner',gender:'Male, 20',tags:['Musician (headphones)','Sociable','Tidy','Non-smoker'],bio:'Melbourne musician. Practices electric guitar with headphones only — no noise impact. Sociable and tidy, wants genuine family feel while away from home.',badge:'new'},
+{name:'Sophie K.',origin:'Berlin, Germany',e:'🚴',campus:'Griffith (GC)',course:'Master of Env. Science',start:'Mar 2026',dur:'2 years',budget:330,meals:'Full board',gender:'Female, 26',tags:['Cyclist','Eco-conscious','Early bird','Non-smoker'],bio:'Cycles everywhere and very eco-conscious. Quiet, organised, spotless room. Strong English. Very self-sufficient. Excited to experience Australian family life.',badge:'verified'},
+{name:'Hiroshi & Ayaka N.',origin:'Tokyo, Japan (WHM)',e:'✈️',campus:'Working holiday / Gold Coast',course:'Working holiday makers',start:'Feb 2026',dur:'6 months',budget:700,meals:'Full board (couple)',gender:'Couple, both 24',tags:['Couple placement','WHM visa','Japanese speakers','Very tidy'],bio:'Japanese couple on WHM visas seeking a host for both. Hiroshi has hospitality lined up in Broadbeach; Ayaka is in aged care. Very tidy couple.',badge:'verified'},
+{name:'Aisha O.',origin:'Lagos, Nigeria',e:'⚕️',campus:'Bond University',course:'Bachelor of Health Sciences',start:'Jan 2026',dur:'3 years',budget:345,meals:'Full board',gender:'Female, 22',tags:['Scholarship student','Studious','Non-smoker','Sunday church'],bio:'Partial-scholarship student. Very studious and well-organised. Attends Sunday church (mornings out). Seeks a nurturing family environment. Police check complete.',badge:'new'},
+{name:'Luca F.',origin:'Milan, Italy',e:'🍕',campus:'Bond University',course:'Bachelor of Business',start:'Jan 2026',dur:'2 years',budget:355,meals:'Breakfast & dinner',gender:'Male, 20',tags:['Sociable','Great cook','Football fan','Non-smoker'],bio:'Energetic and sociable, passionate about football and loves cooking Italian food for the family. Reference available from previous Italian homestay host.',badge:'verified'}
+];
+const SVG={
+pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+ppl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',
+clk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+fork:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v13H3z"/><path d="M8 21h8M12 16v5"/></svg>',
+glob:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>',
+grad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+chk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+};
+function buildCard(d,isHost){
+var bCls=d.badge==='verified'?'badge-verified':'badge-new';
+var bLbl=d.badge==='verified'?'✓ Verified':'★ New';
+var tags=d.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
+var rows,foot;
+if(isHost){
+rows=SVG.pin+'<span>'+d.suburb+', Gold Coast</span>|'+SVG.ppl+'<span>Capacity: '+d.cap+' · '+d.placed+' placed now</span>|'+SVG.clk+'<span>Bond '+d.bBond+' · Griffith '+d.bGriff+' by bus/rail</span>|'+SVG.fork+'<span>'+d.meals+'</span>';
+foot='<div class="lcard-price">A
+</script>
+</body>
+</html>
++d.rate+'<span> / week</span></div><div class="lcard-ok">'+SVG.chk+' Police checked</div>';
+}else{
+rows=SVG.glob+'<span>From '+d.origin+'</span>|'+SVG.grad+'<span>'+d.campus+' · '+d.course+'</span>|'+SVG.cal+'<span>Starts '+d.start+' · '+d.dur+' · '+d.gender+'</span>|'+SVG.fork+'<span>'+d.meals+'</span>';
+foot='<div class="lcard-price">Budget A
+</script>
+</body>
+</html>
++d.budget+'<span> / week</span></div><div class="lcard-ok">'+SVG.chk+(d.badge==='verified'?' Check done':' Check pending')+'</div>';
+}
+var rowsHtml=rows.split('|').map(function(r){return '<div class="lcard-row">'+r+'</div>';}).join('');
+return '<div class="listing-card"><div class="lcard-photo '+(isHost?'host-photo':'student-photo')+'">'+d.e+'<span class="lcard-badge '+bCls+'">'+bLbl+'</span></div><div class="lcard-body"><div class="lcard-name">'+d.name+'</div><div class="lcard-sub">'+(isHost?d.suburb+', Gold Coast':d.origin)+'</div><div class="lcard-tags">'+tags+'</div><div class="lcard-details">'+rowsHtml+'<p class="lcard-bio">'+d.bio+'</p></div></div><div class="lcard-foot">'+foot+'</div></div>';
+}
+function showListings(type){
+var h=type==='host';
+document.getElementById('listHost').classList.toggle('on',h);
+document.getElementById('listHost').setAttribute('aria-selected',h);
+document.getElementById('listStudent').classList.toggle('on',!h);
+document.getElementById('listStudent').setAttribute('aria-selected',!h);
+document.getElementById('listingGrid').innerHTML=(h?HOSTS:STUDENTS).map(function(d){return buildCard(d,h);}).join('');
+}
+showListings('host');
 
 renderSteps('student');
 </script>
