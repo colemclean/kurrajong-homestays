@@ -1,6 +1,5 @@
 # Kurrajong — robots.txt
 # Default: allow everyone, including AI search/answer crawlers.
-# TODO before deploy: replace the Sitemap domain.
 
 User-agent: *
 Allow: /
